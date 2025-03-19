@@ -10,6 +10,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.selfalarmproject.Music.MusicActivity;
+import com.example.selfalarmproject.SMSAndPhoneCall.CallsActivity;
+import com.example.selfalarmproject.SMSAndPhoneCall.CallReceiver;
+import com.example.selfalarmproject.SMSAndPhoneCall.CallBlockService;
 import com.google.android.material.card.MaterialCardView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +27,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Tạo CallReceiver
+        CallReceiver callReceiver = new CallReceiver(this);
+
+        // Khi không cần thiết nữa, hãy gọi
+        callReceiver.unregister();
+
+        // Khởi động CallBlockerService
+        Intent intent = new Intent(this, CallBlockService.class);
+        startService(intent);
 
         MaterialCardView cardMusic = findViewById(R.id.card_music);
         MaterialCardView cardCall = findViewById(R.id.card_calls_sms);

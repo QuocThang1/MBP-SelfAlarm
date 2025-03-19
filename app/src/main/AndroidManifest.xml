@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Quyền cần thiết -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!-- Loại bỏ quyền PROCESS_OUTGOING_CALLS vì đã bị deprecated -->
+
+    <!-- Khai báo tính năng phần cứng, nhưng không bắt buộc -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,19 +29,23 @@
         <service
             android:name=".Music.MusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false" />  <!-- Chuyển thành exported="false" nếu không cần thiết -->
 
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Music.MusicActivity" />
         <activity android:name=".Music.SongListActivity" />
+
+        <!-- Thêm CallsActivity -->
+        <activity android:name=".SMSAndPhoneCall.CallsActivity" />
+
         <receiver
             android:name=".Music.SongInfoReceiver"
             android:exported="false">
@@ -35,6 +53,26 @@
                 <action android:name="com.example.selfalarmproject.SONG_INFO_UPDATED" />
             </intent-filter>
         </receiver>
+
+        <!-- SMSReceiver với kiểm tra quyền -->
+        <receiver
+            android:name=".SMSAndPhoneCall.SMSReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Service với quyền hạn -->
+        <service
+            android:name=".SMSAndPhoneCall.CallBlockService"
+            android:exported="false"/>
+
+        <!-- Thêm SMSBlockService -->
+        <service
+            android:name=".SMSAndPhoneCall.SMSBlockService"
+            android:exported="false"/>
     </application>
 
 </manifest>
