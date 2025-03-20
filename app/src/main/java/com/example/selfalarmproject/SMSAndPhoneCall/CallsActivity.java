@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class CallsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Check", "Da vao giao dien Calls");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calls);
 
@@ -46,6 +48,8 @@ public class CallsActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
 
         // Thiết lập adapter cho ViewPager2
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(adapter);
         // Thêm code cho viewPager.setAdapter() ở đây
 
         // Thiết lập TabLayoutMediator

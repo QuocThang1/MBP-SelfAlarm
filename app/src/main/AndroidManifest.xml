@@ -43,22 +43,24 @@
             </intent-filter>
         </activity>
 
+
         <!-- Các Activity khác -->
         <activity android:name=".Music.MusicActivity"/>
         <activity android:name=".Music.SongListActivity"/>
         <activity android:name=".Battery.BatteryActivity"/>
         <activity android:name=".SMSAndPhoneCall.CallsActivity"/>
 
-        <!-- Receiver cập nhật thông tin bài hát -->
-        <receiver
-            android:name=".Music.SongInfoReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.selfalarmproject.SONG_INFO_UPDATED"/>
-            </intent-filter>
-        </receiver>
-
         <!-- Receiver xử lý tin nhắn SMS -->
+
+        <activity android:name=".Music.MusicActivity" />
+        <activity android:name=".Music.SongListActivity" />
+
+
+        <!-- Thêm CallsActivity -->
+        <activity android:name=".SMSAndPhoneCall.CallsActivity" />
+
+        <!-- SMSReceiver với kiểm tra quyền -->
+
         <receiver
             android:name=".SMSAndPhoneCall.SMSReceiver"
             android:exported="true"
@@ -92,6 +94,7 @@
         <service
             android:name=".SMSAndPhoneCall.SMSBlockService"
             android:exported="false"/>
+
 
         <!-- Service tối ưu hóa pin -->
         <service
