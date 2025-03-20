@@ -16,9 +16,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.selfalarmproject.R;
+import com.example.selfalarmproject.MainActivity;
 
 public class MusicActivity extends AppCompatActivity {
-    ImageButton btnplay, btnnext, btnprevious,  btnSelectSong, btnrepeat;
+    ImageButton btnplay, btnnext, btnprevious,  btnSelectSong, btnrepeat, btnback;
     TextView tvSongTitle, tvArtist;
     Boolean flag=true;
     ImageView songImageView;
@@ -33,6 +34,7 @@ public class MusicActivity extends AppCompatActivity {
         btnprevious = findViewById(R.id.buttonPrevious);
         btnSelectSong = findViewById(R.id.buttonSelectSong);
         btnrepeat = findViewById(R.id.buttonRepeat);
+        btnback = findViewById(R.id.buttonBack);
         tvSongTitle = findViewById(R.id.songTitle);
         tvArtist = findViewById(R.id.artistName);
         songImageView = findViewById(R.id.imageView);
@@ -44,6 +46,18 @@ public class MusicActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        btnback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MusicActivity.this, MusicService.class );
+                Intent intent = new Intent(MusicActivity.this, MainActivity.class);
+                intent1.putExtra("action", "BACK");
+                startService(intent1);
+                startActivity(intent);
+                finish();
+            }
         });
 
         btnplay.setOnClickListener(new View.OnClickListener() {
@@ -110,12 +124,8 @@ public class MusicActivity extends AppCompatActivity {
                 Intent intent = new Intent(MusicActivity.this, MusicService.class);
                 intent.putExtra("action", "REPEAT");
                 startService(intent);
-                if (flag == true)
+                if (flag == false)
                 {
-                    btnplay.setImageResource(R.drawable.pause);
-                    flag = false;
-                }
-                else{
                     btnplay.setImageResource(R.drawable.play);
                     flag = true;
                 }
