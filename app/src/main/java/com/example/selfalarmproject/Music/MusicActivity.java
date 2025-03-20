@@ -39,9 +39,6 @@ public class MusicActivity extends AppCompatActivity {
         tvArtist = findViewById(R.id.artistName);
         songImageView = findViewById(R.id.imageView);
 
-        SongInfoReceiver.setTextViews(tvSongTitle, tvArtist);
-        SongInfoReceiver.setImageView(songImageView);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -160,8 +157,8 @@ public class MusicActivity extends AppCompatActivity {
 
     private void updateSongInfoFromPreferences() {
         android.content.SharedPreferences prefs = getSharedPreferences("MusicPrefs", MODE_PRIVATE);
-        String title = prefs.getString("selectedSongTitle", "Chưa chọn bài hát");
-        String artist = prefs.getString("selectedSongArtist", "Chưa có nghệ sĩ");
+        String title = prefs.getString("selectedSongTitle", "Một bài hát không vui mấy");
+        String artist = prefs.getString("selectedSongArtist", "Trí");
         int backgroundId = prefs.getInt("selectedBackgroundId", R.drawable.motbaihatkhongvuimay);
 
         tvSongTitle.setText(title);
