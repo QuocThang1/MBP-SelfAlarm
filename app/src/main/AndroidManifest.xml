@@ -2,18 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Quyền cần thiết -->
+    <!-- Quyền cần thiết cho tính năng Battery Optimization -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
+    <!-- Các quyền liên quan đến SMS & cuộc gọi -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <!-- Loại bỏ quyền PROCESS_OUTGOING_CALLS vì đã bị deprecated -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
-    <!-- Khai báo tính năng phần cứng, nhưng không bắt buộc -->
+    <!-- Khai báo phần cứng không bắt buộc -->
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <application
@@ -26,19 +32,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SelfAlarmProject"
         tools:targetApi="31">
-        <service
-            android:name=".Music.MusicService"
-            android:enabled="true"
-            android:exported="false" />  <!-- Chuyển thành exported="false" nếu không cần thiết -->
 
+        <!-- Khai báo Activity chính -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
+        <!-- Các Activity khác -->
+        <activity android:name=".Music.MusicActivity"/>
+        <activity android:name=".Music.SongListActivity"/>
+        <activity android:name=".Battery.BatteryActivity"/>
+        <activity android:name=".SMSAndPhoneCall.CallsActivity"/>
+
+        <!-- Receiver xử lý tin nhắn SMS -->
 
         <activity android:name=".Music.MusicActivity" />
         <activity android:name=".Music.SongListActivity" />
@@ -48,6 +60,7 @@
         <activity android:name=".SMSAndPhoneCall.CallsActivity" />
 
         <!-- SMSReceiver với kiểm tra quyền -->
+
         <receiver
             android:name=".SMSAndPhoneCall.SMSReceiver"
             android:exported="true"
@@ -57,16 +70,37 @@
             </intent-filter>
         </receiver>
 
-        <!-- Service với quyền hạn -->
+        <!-- BatteryStateReceiver để lắng nghe sự kiện pin & màn hình -->
+        <receiver
+            android:name=".Battery.BatteryStateReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+                <action android:name="android.intent.action.SCREEN_OFF"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Service chạy nền chặn cuộc gọi không mong muốn -->
         <service
             android:name=".SMSAndPhoneCall.CallBlockService"
             android:exported="false"/>
 
-        <!-- Thêm SMSBlockService -->
+        <!-- Service chạy nền chặn tin nhắn SMS không mong muốn -->
         <service
             android:name=".SMSAndPhoneCall.SMSBlockService"
             android:exported="false"/>
 
-    </application>
 
+        <!-- Service tối ưu hóa pin -->
+        <service
+            android:name=".Battery.BatteryOptimizationService"
+            android:enabled="true"
+            android:exported="false"
+           />
+    </application>
 </manifest>
