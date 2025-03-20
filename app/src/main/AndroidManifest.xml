@@ -47,8 +47,6 @@
         <!-- Thêm CallsActivity -->
         <activity android:name=".SMSAndPhoneCall.CallsActivity" />
 
-       
-
         <!-- SMSReceiver với kiểm tra quyền -->
         <receiver
             android:name=".SMSAndPhoneCall.SMSReceiver"
