@@ -9,6 +9,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.selfalarmproject.Battery.BatteryActivity;
 import com.example.selfalarmproject.Music.MusicActivity;
 import com.example.selfalarmproject.SMSAndPhoneCall.CallsActivity;
 import com.example.selfalarmproject.SMSAndPhoneCall.CallReceiver;
