@@ -43,16 +43,9 @@
         <activity android:name=".Music.MusicActivity" />
         <activity android:name=".Music.SongListActivity" />
 
+
         <!-- Thêm CallsActivity -->
         <activity android:name=".SMSAndPhoneCall.CallsActivity" />
-
-        <receiver
-            android:name=".Music.SongInfoReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.selfalarmproject.SONG_INFO_UPDATED" />
-            </intent-filter>
-        </receiver>
 
         <!-- SMSReceiver với kiểm tra quyền -->
         <receiver
@@ -73,6 +66,7 @@
         <service
             android:name=".SMSAndPhoneCall.SMSBlockService"
             android:exported="false"/>
+
     </application>
 
 </manifest>

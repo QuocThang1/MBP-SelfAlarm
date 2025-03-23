@@ -178,6 +178,15 @@ public class MusicService extends Service {
                 mymusic.start();
         }
 
+        if ("BACK".equals(action)) {
+            Log.d("Check", "Da nhan Back");
+            if (mymusic.isPlaying()) {
+                mymusic.stop();
+            }
+            mymusic.release();
+            mymusic = null;
+        }
+
         return super.onStartCommand(intent, flags, startId);
     }
 
